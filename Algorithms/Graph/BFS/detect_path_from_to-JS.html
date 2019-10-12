@@ -1,0 +1,53 @@
+<script>
+//If there is a cycle, function interrupts
+
+function givePathIfExist(grid, from, to, path){
+	if(path.length == 0)
+		path.push(from);
+	
+	for(let j = 0; j < grid[from].length; j++){
+		if(grid[from][j]){
+			
+			let pathCopy = path.slice();
+			if(pathCopy.indexOf(j) > -1){
+				pathCopy.push(j);
+				console.log("Cycle DETECTED: " + pathCopy)
+				return;
+			}
+			pathCopy.push(j);
+
+			if(j == to)
+			{
+				console.log(pathCopy);
+				return;
+			}
+			
+			givePathIfExist(grid, j, to, pathCopy)			
+		}
+	}
+
+	return;
+}
+
+var acyclicGrid = [
+	[0,1,0,0,0],
+	[0,0,1,1,0],
+	[0,0,0,1,0],
+	[0,0,0,0,1],
+	[0,0,0,0,0]
+];
+
+var cyclicGrid = [
+	[0,1,0,0,0],
+	[0,0,1,1,0],
+	[0,0,0,1,0],
+	[0,0,0,0,1],
+	[0,0,1,0,0]
+];
+
+givePathIfExist(acyclicGrid, 0, 4, []);
+givePathIfExist(cyclicGrid, 4, 3, []);
+
+</script>
+
+	

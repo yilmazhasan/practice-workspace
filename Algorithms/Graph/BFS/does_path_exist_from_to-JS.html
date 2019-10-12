@@ -1,0 +1,61 @@
+<script>
+
+//If there is a cycle function can crash
+//It should Check cycle
+
+var visited = [];
+var cursor = 0;
+
+function doesPathExist(grid, from, to){
+	
+	if(visited.length == 0)
+		visited.push(from);
+	
+	for(let j = 0; j < grid[from].length; j++){
+		if(grid[from][j]){
+			if(j == to)
+				return true;
+			visited.push(j);
+		}
+	}
+
+	cursor++;
+		
+	if(visited.length == 0 || cursor >= visited.length)
+		return false;
+	else
+		return doesPathExist(grid, visited[cursor], to);
+}
+
+function checkPathExist(grid, from, to){
+	visited = [];
+	cursor = 0;
+	
+	return doesPathExist(grid, from, to);
+}
+
+var acyclicGrid = [
+	[0,1,0,0,0],
+	[0,0,1,1,0],
+	[0,0,0,1,0],
+	[0,0,0,0,1],
+	[0,0,0,0,0]
+];
+
+var acyclicGrid2 = [
+	[0,1,0,0,0],
+	[0,0,1,1,0],
+	[0,0,0,1,0],
+	[0,0,0,0,1],
+	[0,0,0,0,0]
+];
+
+console.log(checkPathExist(acyclicGrid, 0, 2) == true);
+console.log(checkPathExist(acyclicGrid, 0, 3) == true);
+console.log(checkPathExist(acyclicGrid, 0, 4) == true);
+console.log(checkPathExist(acyclicGrid, 4, 3) == false);
+console.log(checkPathExist(acyclicGrid, 4, 0) == false);
+
+</script>
+
+	

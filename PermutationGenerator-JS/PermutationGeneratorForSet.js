@@ -31,7 +31,7 @@ function *permutationGeneratorForSet(set, choicesByIndex) {
     while(currentIndsOfChoices[0] >= 0 && i++ < 100) {
         let nextPerm = getNextPerm();
         if (nextPerm) {
-			if(nextPerm.filter(x=>x).length == nextPerm.length){
+			if(nextPerm.filter(x=>x || x==0).length == nextPerm.length){	// if not exists any null value
 				yield nextPerm ;
 			}
         } else return;
@@ -63,18 +63,34 @@ function *permutationGeneratorForSet(set, choicesByIndex) {
         newPerm[numOfEl - 1] = null;
     }
 
-    function next() {
-        let nextPerm = getNextPerm();
+  
+    next() {
+        let nextPerm = this.getNextPerm();
         if (nextPerm) {
-            return { done: false, value: nextPerm };
-        }
-        else return { done: true };
+            while(nextPerm.filter(x=> x || x==0).length < nextPerm.length) {   // If nextPerm does not include empty item
+                nextPerm = this.getNextPerm();
+                if(!nextPerm || nextPerm.length == 0) {
+                    return { done: true };
+                }
+             }
+
+             return { done: false, value: nextPerm };
+
+            }
+        else { 
+			return { done: true };
+		}
     }
 
     function getNextPerm() {
 
         for (let i = numOfEl - 1; i >= 0 && i < numOfEl; i++) {
             let el = getAndSetPossibleNextElementForNewPerm(newPerm, choicesArrays[i], currentIndsOfChoices, i);
+			
+			while(el == 'EXISTINARRAY') {
+                el = this.getAndSetPossibleNextElementForNewPerm(this.newPerm, this.choicesArrays[i], this.currentIndsOfChoices, i);
+            }
+			
             if (!el && el != 0) {   // if el is undefined or null
                 while (!goBack(newPerm, choicesArrays, currentIndsOfChoices, --i)) {
                     if (i == 0) {
@@ -125,9 +141,10 @@ function *permutationGeneratorForSet(set, choicesByIndex) {
             currentIndsInChoices[elInd]++;
 
         if (currentIndsInChoices[elInd] >= 0 && currentIndsInChoices[elInd] < choices.length) {
-            if (newPerm.slice(0, elInd).indexOf(choices[currentIndsInChoices[elInd]]) >= 0)
-                return getAndSetPossibleNextElementForNewPerm(newPerm, choices, currentIndsInChoices, elInd);
-            newPerm[elInd] = choices[currentIndsInChoices[elInd]];
+            if (newPerm.slice(0, elInd).indexOf(choices[currentIndsInChoices[elInd]]) >= 0) // If exist any where in new perm
+            {
+                return "EXISTINARRAY";
+            }            newPerm[elInd] = choices[currentIndsInChoices[elInd]];
             return choices[currentIndsInChoices[elInd]]
         } else {
             currentIndsInChoices[elInd] = -1;

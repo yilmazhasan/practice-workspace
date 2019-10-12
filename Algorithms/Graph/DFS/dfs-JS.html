@@ -1,0 +1,44 @@
+<script>
+
+function doesPathExist(grid, from, to){
+	
+	for(let j = 0; j < grid[from].length; j++){
+		if(grid[from][j]){
+			if(visited.indexOf(j) > -1)
+			{
+				console.log("CYCLIC! - Path: " + visited + " revisiting from " + from + " to " +j);
+
+				return true;
+			}
+			else{
+				visited.push(j);
+
+				if(isCyclicCheck(grid, visited.slice()))
+				{
+					isCyclic = true;
+//					return true;
+				}
+			}
+		}
+
+	}
+
+	if(isCyclic)
+		return true;
+	else
+		return false;
+}
+
+var acyclicGrid = [
+	[0,1,0,0,0],
+	[0,0,1,1,0],
+	[0,0,0,1,0],
+	[0,0,0,0,1],
+	[0,0,0,0,0]
+];
+
+console.log(doesPathExist(acyclicGrid, 0, 4));
+
+</script>
+
+	

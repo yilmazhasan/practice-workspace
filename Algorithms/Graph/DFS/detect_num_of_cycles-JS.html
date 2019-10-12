@@ -1,0 +1,66 @@
+<script>
+
+function numberOfCycles(grid, path){
+
+	if(path.length == 0)
+		return 0;
+	
+	let numOfCycles = 0;
+	let currentNode = path[path.length-1];
+
+	for(let j = 0; j < grid[currentNode].length; j++){
+		if(grid[currentNode][j]){
+		
+			if(path.indexOf(j) > -1)
+			{
+				numOfCycles++;	//CYCLE DETECTED
+				console.log(path + "," +j + " -- actual cycle is : " + path.slice(path.indexOf(j)) + "," +j);
+				continue;
+			}
+
+			let pathCopy = path.slice();
+			
+			pathCopy.push(j);
+			
+			numOfCycles += numberOfCycles(grid, pathCopy)
+		}
+	}
+		
+
+	return numOfCycles;
+}
+
+var acyclicGrid = [		// 0 > 1 > 2
+	[0,1,0,0,0],		//     v   v
+	[0,0,1,1,0],		//	     3 > 4	
+	[0,0,0,1,0],
+	[0,0,0,0,1],
+	[0,0,0,0,0]
+];
+
+var cyclicGrid = [
+	[0,1,0,0,0],
+	[0,0,1,1,0],
+	[0,0,0,1,0],
+	[0,0,0,0,1],
+	[1,0,1,0,0]
+];
+
+var cyclicGrid2 = [		// 0 > 1 >  2 
+	[0,1,0,0,0],		// ^    v  v  ^
+	[0,0,1,1,0],		// ^      3  > 4
+	[1,0,0,0,0],		// < < < < < < v
+	[0,0,0,0,1],
+	[1,0,0,0,0]
+];
+
+console.log("acyclicGrid : ");
+console.log(numberOfCycles(acyclicGrid, [0]));
+console.log("cyclicGrid : ");
+console.log(numberOfCycles(cyclicGrid, [0]));
+console.log("cyclicGrid2 : ");
+console.log(numberOfCycles(cyclicGrid2, [4]));	//Path consists of initial node, it can be any
+
+</script>
+
+	
