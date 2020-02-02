@@ -1,7 +1,9 @@
 /**
 * https://codeforces.com/contest/1295/problem/B
 * @author github.com/yilmazhasan
-* wrong answers on test input3
+* Wrong answers on test input3, what inside is unknown
+* sampless of IO: #numOfInputs str1Size requiredBalance1 str1 ...
+* 5 -1 10101 -> 5, 4 -1 1010 -> -1 (infinity), 7 -2 1010101 -> 7, 7 2 0001111 -> 3
 **/
 
 #include <iostream>
