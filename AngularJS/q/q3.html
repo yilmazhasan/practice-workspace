@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<body>
+
+<ul ng-app="myApp" ng-controller="ctrl">
+
+
+</ul>
+
+<script>
+angular.module("myApp",[])
+.controller("ctrl",function($scope,$q){
+  
+function sayHello(name) {
+  var deferred = $q.defer();  
+  setTimeout(function() {
+    if (name =="something") {
+      deferred.resolve('Hello, ' + name);
+    } else {
+      deferred.reject('Give different name');
+    }
+  }, 2000);
+ 
+  return deferred.promise;
+}
+ 
+var promise = sayHello('xxxxx')
+
+promise.when("something", function(response){
+	alert("resolve: " +response);
+}, function(error){
+	alert("reject: " + error);
+}, function(error){
+	alert("progress: " + error);
+})
+ 
+})
+
+</script>
+
+</body>
+</html>
+

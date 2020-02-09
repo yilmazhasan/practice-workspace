@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+	<script>
+    'use strict';
+
+//1,2,3...end,1 loop iter
+
+function myLoopIter(start, end){
+		var current = start;
+		
+		return {
+			next : function step(step) {
+				current = ((current + step + end-1) % end + 1)		
+				return current
+			}
+		}
+}
+
+var it = myLoopIter(5,5)
+
+console.log(it.next(1) == 1)
+console.log(it.next(1) == 2)
+console.log(it.next(-1) == 1)
+
+
+//Iterator
+function* makeRangeIterator(start = 0, end = 100, step = 1) {
+    for (let i = start; i < end; i += step) {
+        yield i;
+    }
+}
+
+
+//
+var myIterable = {
+    *[Symbol.iterator]() {
+        yield 1;
+        yield 2;
+        yield 3;
+    }
+}
+
+for (let value of myIterable) { 
+    console.log(value); 
+}
+// 1
+// 2
+// 3
+
+[...myIterable]; // [1, 2, 3]
+ 
+	</script>
+</body>
+
+</html>

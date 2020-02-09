@@ -1,0 +1,15 @@
+<script>
+
+function httpGet(theUrl)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+}
+
+//const https = require('https');
+
+//var result = httpGet("https://jsonmock.hackerrank.com/api/movies/search/?Title=maze");
+
+</script>

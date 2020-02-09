@@ -1,0 +1,10 @@
+<script>
+
+function Foo(){
+
+}
+
+alert(( new Foo ).__proto__ === Foo.prototype);	//true
+alert(( new Foo ).prototype === undefined);	//true
+
+</script>

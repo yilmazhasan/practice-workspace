@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script> -->
+<script src="../AngularJs/AngularJSLibraries/angular.min.js"></script>
+
+<style>
+
+body{
+
+  text-align: center;
+  font-size: 2rem;
+}
+button {
+    margin: 0;
+    height: 3rem;
+    width: 3rem;
+}
+
+</style>
+
+<body>
+
+    <div ng-app="app">
+        <h1>Angular & Redux Counter</h1>
+        <h4>From Scratch</h4>
+        <counter></counter>
+      </div>
+
+
+</body>
+
+<script>
+
+/*-------------Store Service-------------*/
+class store {
+  /*-------------Create Store-------------*/
+  createStore(reducer) {
+    let state;
+    let listeners = [];
+
+    const getState = () => state;
+
+    const dispatch = (action) => {
+      state = reducer(state, action);
+      listeners.forEach(listener => listener());
+    };
+
+    const subscribe = (listener) => {
+      listeners.push(listener);
+      return () => {
+        listeners = listeners.filter(l => l !==listener);
+      };
+    };
+
+    dispatch({});
+    /* 
+      Instead of returning the store,
+      we assign it to the StoreService.
+      If we were to assign it to the component then 
+      the store would be gone when the component gets
+      destroyed.
+    */
+    this.store = { getState, dispatch, subscribe };
+  }  
+  
+}
+
+/*-------------Counter Component-------------*/
+class CounterCtrl {
+  constructor(CounterStore) {
+    this.value;
+    this.CounterStore = CounterStore;
+    this.setState = () => this.value = this.CounterStore.store.getState(); 
+  }
+  
+  dispatch(action) {
+    this.lastAction = {
+      prevState: this.value,
+      action
+    }
+    this.CounterStore.store.dispatch({
+      type: action
+    });
+  }
+  
+  $onInit() {
+    //create reducer
+    const reducer = (state = 0, action) => {
+      switch(action.type) {
+        case 'INCREMENT':
+          return ++state
+          case 'DECREMENT':
+          return --state
+          default:
+          return state  
+      };     
+    }
+    //create the store with the reducer
+    this.CounterStore.createStore(reducer);
+    //subscribe to store with setState
+    this.unsubscribe = this.CounterStore.store.subscribe(this.setState);
+    //render initial state
+    this.setState(); 
+  }
+  
+  $onDestroy() {
+    this.unsubscribe();
+  }
+  
+}
+
+const counterComponent =  {
+  controller: CounterCtrl,
+  template: `
+    <h1>{{$ctrl.value}}</h1>
+    <button ng-click="$ctrl.dispatch('INCREMENT')">+</button>
+    <button ng-click="$ctrl.dispatch('DECREMENT')">-</button>
+    <pre>
+      {{$ctrl.lastAction | json:5}}
+    </pre>
+  `
+};
+
+/*--------------MODULE-------------*/
+angular.module('app', [])
+  .component('counter', counterComponent)
+  .service('CounterStore', store);
+</script>
+</html>
+

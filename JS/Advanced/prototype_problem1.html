@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+  <script>
+    'use strict';
+	
+function Animal(name) {
+  this._name = name;
+}
+
+Animal.prototype.walk = function() {
+  alert(this._name + ' walks');
+};
+
+function Rabbit(name) {
+	  this.__proto__.__proto__.constructor(name);
+  //this._name = name;
+}
+
+Rabbit.prototype.__proto__ = Animal.prototype;
+
+Rabbit.prototype.bounce = function() {
+  alert(this._name + " bounces!");
+};
+
+let animal = new Animal("pig");
+let rabbit = new Rabbit("rabbit");
+rabbit.walk();
+rabbit.bounce();
+animal.walk(); // pig bounces!
+  </script>
+</body>
+
+</html>

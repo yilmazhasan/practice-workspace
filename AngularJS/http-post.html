@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script> -->
+<script src="./AngularJSLibraries/angular.min.js"></script>
+<body>
+
+<ul ng-app="myApp" ng-controller="namesCtrl">
+
+<script>
+var app = angular.module('myApp', []);
+	
+app.controller('namesCtrl', function($scope, $filter, $http) {
+    $scope.names = ['Jani','Carl','Margareth','Hege','Joe','Gustav','Birgit','Mary'];
+
+	$scope.init = function(){
+	
+
+		$http.post("http://localhost:8057/API/token", {"grant_type": "password", "username": "240@_@egitmen", "password":123}).then(function(){
+			console.log("as");
+		}, function(){
+			console.log("as");
+		});
+	
+	}
+	
+	$scope.init();
+
+});
+
+</script>
+
+<p>Make your own filters.</p>
+<p>This filter, called "myFormat", will uppercase every other character.</p>
+</body>
+</html>
+

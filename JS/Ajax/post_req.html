@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<script>
+
+
+//var xhttpget = new XMLHttpRequest();
+//xhttpget.open("GET", "API/api/user/cancelSms?userId=2")
+
+var xhttp = new XMLHttpRequest();
+
+/*xhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    document.getElementById("demo").innerHTML = this.responseText;
+  }
+};*/
+
+const url = "http://localhost:8057/API/token";
+const headerData = 'grant_type=password&username=***&password=***';
+xhttp.open("POST", url, true) 
+//xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8"); //also working
+xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+xhttp.send(headerData) //important post data
+
+// or
+
+var user = {"grant_type": "password", "username": "240@_@egitmen", "password":123}
+function sendReq(user){
+
+	$.ajax({
+	  type: "POST",
+	  url: url,
+	  data: user,
+	  success: function(res){alert("success: " + JSON.stringify(res));},
+	  dataType: "json",
+	  contentType : "application/json"
+	});
+}
+
+
+
+
+
+
+</script>
+
+

@@ -1,0 +1,47 @@
+<!-- Functions whose source is available after a time, it returns when available-->
+
+<script>
+
+//executes always first function, cause Resolve
+function resolveAfterASecond(){
+	p = new Promise(resolve => {setTimeout(()=>{resolve("resolved soon")}, 1010)}, reject=>{reject("rejected immediately")})
+			
+	return p;
+}
+
+//cause Resolve
+function rejectTimelyBeforeResolve(){
+	p = new Promise(resolve => {setTimeout(()=>{resolve("resolved soon")}, 1010)}, reject=>{setTimeout( ()=> reject("rejected soon"), 500) });
+			
+	return p;
+}
+
+//cause Reject
+function rejectBeforeResolve(){
+	p = new Promise( reject=>{setTimeout( ()=> reject("rejected soon"), 500) }, resolve => {setTimeout(()=>{resolve("resolved soon")}, 10)});
+			
+	return p;
+}
+
+
+//this is same with using .then() method; notice ther eis no .success anymore
+async function getDelayedDataWithAwait() {
+	console.log("calling in async-await function");
+	var result = await resolveAfterASecond();
+	console.log(result);
+}
+				  
+function getDelayedDataWithThen() {
+	console.log("with then");
+//	var result = resolveAfterASecond(); //resolves
+	var result = rejectTimelyBeforeResolve(); //resolves
+//	var result = rejectBeforeResolve(); //rejects since it is first parameter
+	result.then(function(data){console.log("resolved: " + data)}, function(data){console.log("rejected: " + data)});
+}
+
+getDelayedDataWithThen()
+				  
+				  				  
+</script>
+
+

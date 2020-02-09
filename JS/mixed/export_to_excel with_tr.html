@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" charset='UTF-8'>
+<script type="text/javascript">
+
+function exportExcel_tr() {
+     var tableExport = document.getElementById('tableExport');
+     var html = tableExport.outerHTML;
+
+     while (html.indexOf('ç') != -1) html = html.replace('ç', '&ccedil;');
+     while (html.indexOf('ğ') != -1) html = html.replace('ğ', '&#287;');
+     while (html.indexOf('ı') != -1) html = html.replace('ı', '&#305;');
+     while (html.indexOf('ö') != -1) html = html.replace('ö', '&ouml;');
+     while (html.indexOf('ş') != -1) html = html.replace('ş', '&#351;');
+     while (html.indexOf('ü') != -1) html = html.replace('ü', '&uuml;');
+
+     while (html.indexOf('Ç') != -1) html = html.replace('Ç', '&Ccedil;');
+     while (html.indexOf('Ğ') != -1) html = html.replace('Ğ', '&#286;');
+     while (html.indexOf('İ') != -1) html = html.replace('İ', '&#304;');
+     while (html.indexOf('Ö') != -1) html = html.replace('Ö', '&Ouml;');
+     while (html.indexOf('Ş') != -1) html = html.replace('Ş', '&#350;');
+     while (html.indexOf('Ü') != -1) html = html.replace('Ü', '&Uuml;');
+
+     window.open('data:application/vnd.ms-excel,' + encodeURIComponent(html));
+}
+
+function exportToExcel(htmls) {
+        var uri = 'data:application/vnd.ms-excel;base64,';
+        var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>';
+        var base64 = function (s) {
+          return window.btoa(unescape(encodeURIComponent(s)))
+        };
+
+        var format = function (s, c) {
+          return s.replace(/{(\w+)}/g, function (m, p) {
+            return c[p];
+          })
+        };
+
+        var ctx = {
+          worksheet: 'Worksheet',
+          table: htmls
+        }
+
+
+        var link = document.createElement("a");
+        link.download = "export.xls";
+        link.href = uri + base64(format(template, ctx));
+        link.click();
+      }
+
+function exportExcel_tr_best(){
+    var htmls = tableExport.outerHTML;
+	window.open( 'data:application/vnd.ms-excel,%EF%BB%BF' + encodeURIComponent(htmls));	//success
+//	window.open( 'data:application/csv,%EF%BB%BF' + encodeURIComponent(htmls));		//success, but no extension change data prop
+}
+
+	  </script>
+</head>
+<body>
+<button id="btnExport" onclick="exportExcel_tr();">Export to Excel</button>
+<button id="btnExport" onclick="exportExcel_tr_best();">Export to Excel2</button>
+<table id="tableExport">
+<tr>
+<td style="background-color:red;">row 1 - column 1</td>
+<td>row 1 - column 2 ÇçŞşÖöÜüİiĞğ </td>
+</tr>
+<tr>
+<td>row 2 - column 1</td>
+<td>row 2 - column 2</td>
+</tr>
+</table>
+</body>
+</html>

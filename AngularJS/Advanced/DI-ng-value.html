@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<body>
+
+<div ng-app="myApp" ng-controller="myCtrl">
+
+<input ng-value="myVar">
+{{myVar}}
+</div>
+
+<script>
+
+var app = angular.module('myApp', []);
+
+app.value('title', 'matrix');
+app.value('title', 'matrix2');
+
+<!-- app.controller('myCtrl', function(title) { -->
+	<!-- title = 'matrix3'; -->
+<!-- }); -->
+
+app.controller('myCtrl', function($scope, title) {
+    $scope.myVar = title;
+});
+
+</script>
+
+<p>This example shows how to use AngularJS expressions to set the value of an input field.</p>
+
+</body>
+</html>

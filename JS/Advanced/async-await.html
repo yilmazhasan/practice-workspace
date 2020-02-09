@@ -1,0 +1,62 @@
+<script>
+
+let testAfterAwait = 1;
+
+//try resolve and reject with timeout
+async function f(){
+	//Do not change order
+
+let p = new Promise((resolve, reject) =>
+		{
+			setTimeout(()=> {
+				try{
+					resolve("resolved 2 s later");
+				}
+				catch (e){
+					console.log(e);
+				}
+			}, 2000);
+
+			setTimeout(()=> {
+				try{
+					reject("rejected 1 s later")
+				}
+				catch (e){
+					console.log(e);
+				}
+			}, 1000);
+		});
+
+	console.log("wait a second, result is coming");
+	var result = await p;	//function finishes here and returns promise as default behaviour
+
+	//??code not coming through this line until return
+	console.log("thanks for waiting, here is response:"); //??Why not printing two lines
+	testAfterAwait = 2;
+	alert("asd");
+	console.log("after waiting: " + result);
+	
+	//return testAfterAwait;
+	//	return result;
+}
+
+var fP = f();
+alert(fP);
+console.log("Wait a time, promise started to execute!");
+	
+alert(`testAfterAwait before promise exec : ${testAfterAwait}`);
+
+fP.then(alert, console.log);
+
+fP.then(
+	d=>{console.log(`${d} - resolved 2nd`);}, 
+
+	function (data){
+		console.log(`${data} - rejected 2nd`);
+		alert(`testAfterAwait after promise exec should be 2 but : ${testAfterAwait}`);
+});
+
+</script>
+
+
+

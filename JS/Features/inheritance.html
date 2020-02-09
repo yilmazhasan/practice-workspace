@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+  <script>
+    'use strict';
+class Animal {}
+class Rabbit extends Animal {}
+
+//[[prototype]] => obj.__proto__
+//prototype : Class.prototype
+
+console.dir(Animal);
+console.dir(Rabbit);
+
+// for static propertites and methods
+alert(Rabbit.__proto__ === Animal); // true
+
+// and the next step is Function.prototype
+alert(Animal.__proto__ === Function.prototype); // true
+
+// that's in addition to the "normal" prototype chain for object methods
+alert(Rabbit.prototype.__proto__ === Animal.prototype);
+
+alert(Rabbit.prototype.__proto__ === Animal.__proto__);
+
+  </script>
+</body>
+
+</html>

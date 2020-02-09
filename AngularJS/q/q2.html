@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<body>
+
+<ul ng-app="app" ng-controller="ctrl">
+
+
+</ul>
+
+<script>
+angular.module("app",[])
+.controller("ctrl",function($scope,$q){
+  var work = "resolve";
+
+  function getData(){
+    var obj = $q.defer();
+
+    if (work === "resolve") {
+        obj.resolve('response 1!');
+    } else {
+        obj.reject('Oops... something went wrong');
+    }
+
+    return obj.promise;
+  } 
+
+  getData().then(function(data) {
+    alert(data)  
+
+  }) 
+})    
+</script>
+
+</body>
+</html>
+

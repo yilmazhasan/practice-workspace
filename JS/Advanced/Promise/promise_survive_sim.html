@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+  <script>
+    'use strict';
+var compDead = false;
+var userDead = false;
+
+const compP = (time) => {
+
+    return new Promise((resolve, reject) => {
+        var timeout = setTimeout(function() {
+            if (!userDead) {
+                compDead = true;
+                reject("computer is dead.");
+            } else {
+                resolve("computer survived!");
+                //need to clear?
+            }
+
+            clearInterval(interval);
+
+        }, time);
+
+        var interval = setInterval(function() {
+            console.log("Comp checking user!");
+
+            if (userDead) {
+                resolve("Comp survived!");
+                clearInterval(interval);
+                clearTimeout(timeout);
+            }
+        }, 100);
+
+    });
+
+}
+
+
+const userP = (time) => {
+    return new Promise((resolve, reject) => {
+        var timeout = setTimeout(function() {
+            if (!compDead) {
+                userDead = true;
+                reject("User is dead.");
+            } else {
+                resolve("User survived!");
+                //need to clear?
+            }
+            clearInterval(interval);
+        }, time);
+
+        var interval = setInterval(function() {
+            console.log("User checking comp!");
+
+            if (compDead) {
+                resolve("User survived!");
+                clearInterval(interval);
+                clearTimeout(timeout);
+            }
+
+        }, 100);
+
+    });
+}
+
+
+
+
+function fight(user, comp) {
+
+    compP(comp).then(function() {
+        console.log("*****comp is alive*****");
+    }, function() {
+        console.log("*****comp is dead*****");
+    });
+
+
+    userP(user).then(function() {
+        console.log("*****user is alive*****");
+    }, function() {
+        console.log("*****user is dead*****");
+    });
+
+
+
+}
+
+fight(700, 1000);
+
+		</script>
+</body>
+
+</html>

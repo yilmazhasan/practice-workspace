@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+  <script>
+    'use strict';
+
+let it1 = new Map([[1, 2]])[Symbol.iterator]() // MapIterator {1 => 2}
+let it2 = "str"[Symbol.iterator]() // StringIterator {}
+let it3 = [1,2][Symbol.iterator]() // Array Iterator {}
+let it4 = new Set([1, 2])[Symbol.iterator]() // SetIterator {1, 2}
+
+
+[...'abc']; // ["a", "b", "c"]
+
+function* gen() {
+  yield* ['a', 'b', 'c'];
+}
+
+gen().next(); // { value: "a", done: false }
+
+[a, b, c] = new Set(['a', 'b', 'c']);
+a; // "a"
+
+		</script>
+</body>
+
+</html>

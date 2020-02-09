@@ -1,0 +1,21 @@
+- Cond : when notifyAll() is called, all waitings are tries to awake but one can awake at a time, because of single lock acquire
+	After that other waitings will try to get lock to awake
+
+- Event: When event.set() is called waitings are awakes, since there is no lock acquiring
+event = threading.Event() #is_set(), isSet(), clear(), wait([timeout])
+
+
+
+- Timer: 
+t = Timer(30.0, hello)
+t.start()  # after 30 seconds, "hello, world" will be printed
+
+- with statement:
+some_rlock = threading.RLock()
+
+with some_rlock:
+    print "some_rlock is locked while this executes"
+
+- Thread:
+getName() setName() is_alive()
+isDaemon() setDaemon() #The entire Python program exits when no alive non-daemon threads are left

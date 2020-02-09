@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<body>
+
+<ul ng-app="myApp" ng-controller="namesCtrl">
+
+<li ng-repeat="x in names">
+    {{ x | myFormat}}
+</li>
+<br>
+<li ng-repeat="x in filteredNames">
+    {{ x }}
+</li>
+</ul>
+
+<script>
+var app = angular.module('myApp', []);
+	
+app.controller('namesCtrl', function($scope, $filter) {
+    $scope.names = ['Jani','Carl','Margareth','Hege','Joe','Gustav','Birgit','Mary'];
+
+	$scope.filteredNames = $filter("nameFilter")($scope.names, "a");
+
+});
+
+var f = function() {
+    return function(x) {
+        var i, c, txt = "";
+        for (i = 0; i < x.length; i++) {
+            c = x[i];
+            if (i % 2 == 0) {
+                c = c.toUpperCase();
+            }
+            txt += c;
+        }
+        return txt;
+    };
+};
+
+app.filter('myFormat', f);
+
+
+(function () {
+
+	    var nameFilter = function () {
+
+        return function (transactions, filterValue) {
+            if (!filterValue || !transactions) return transactions;
+
+            var matches = [];
+            filterValue = filterValue.toLowerCase();
+            for (var i = 0; i < transactions.length; i++) {
+                var transact = transactions[i];
+                if (transact.toLowerCase().indexOf(filterValue) > -1)
+                {
+                    matches.push(transact);
+                }
+            }
+            return matches;
+        };
+    };	
+
+    angular.module('myApp').filter('nameFilter', nameFilter);
+
+
+})();
+
+//https://docs.angularjs.org/guide/filter
+//https://www.w3schools.com/angular/ng_filter_filter.asp
+
+</script>
+
+<p>Make your own filters.</p>
+<p>This filter, called "myFormat", will uppercase every other character.</p>
+</body>
+</html>
+

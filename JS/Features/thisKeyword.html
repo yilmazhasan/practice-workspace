@@ -1,0 +1,13 @@
+<script>
+
+function Foo()
+{
+ var _this = this;
+console.log(this);
+}
+
+Foo();	//output Window obj
+
+var foo = new Foo(); //output Foo obj
+
+</script>
