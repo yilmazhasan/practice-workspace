@@ -11,25 +11,10 @@
  
 using namespace std;
 
-int getCostOfPrevStopToCurrent(string stops, int i, int busCost, int tramCost) {
-	if(stops[i-1] == stops[i])
-		return 0;
-
-	if(stops[i-1] == 'A') {
-		return busCost;
-	} else { // if stop is B
-		return tramCost;
-	}
-}
-
 int getFirstStopToAffordToReachEndByTransporter(string stops, int busCost, int tramCost, int moneyHas) {
 	int costNeeded = 0;
 
-	if(moneyHas < tramCost && moneyHas < busCost) {
-		return stops.size();
-	}
-
-	for(int i = stops.size()-1; i > 0; i--) {
+	for(int i = stops.size()-2; i > 0; i--) {
 
 		// can come here free, since prev is same
 		if(stops[i] == stops[i-1]){
@@ -43,21 +28,18 @@ int getFirstStopToAffordToReachEndByTransporter(string stops, int busCost, int t
 				;
 			}
 		} else {
-				// since prev can bring me to the current
-				if(i != stops.size()-1) {
-					if(stops[i] == 'A') {
-						costNeeded += busCost;
-					} else { // if stop is B
-						costNeeded += tramCost;
-						}
-				}
+				if(stops[i] == 'A') {
+					costNeeded += busCost;
+				} else { // if stop is B
+					costNeeded += tramCost;
+					}
 			} 
 
 
 		if(costNeeded > moneyHas) {
 			int j = i;
-			for(; j < stops.size()-1; j++) {
-				if(stops[j] == stops[j+1]) {
+			for(; j < stops.size(); j++) {
+				if(stops[j-1] == stops[j]) {
 					continue;
 				}
 				else {
@@ -65,8 +47,8 @@ int getFirstStopToAffordToReachEndByTransporter(string stops, int busCost, int t
 					break;
 				}
 			}
-			// cout << "j: " << j << " i: " << i << " " << costNeeded << " ?<= " << moneyHas<<endl;
-			return j+1;	// not index, returning num but not adding since after loop, j will be one more 
+			// cout << "j" << j << " i " << i << costNeeded << " " << moneyHas<<endl;
+			return j;
 		}
 
 	}

@@ -1,2 +1,2 @@
 
-# Authors: @yilmazhasan, @saitgulmez
+# Authors: @yilmazhasan
