@@ -1,7 +1,10 @@
 /**
 * http://codeforces.com/contest/1291/problem/B
 * @author github.com/yilmazhasan
+*
 **/
+
+// !wrong answer on test2
 
 #include <iostream>
 #include <algorithm>

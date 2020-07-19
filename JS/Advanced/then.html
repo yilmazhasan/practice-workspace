@@ -1,0 +1,28 @@
+<script>
+
+  const thenable = {
+    then: function(resolve, _reject) {
+      resolve('resolved!')
+    }
+  };
+
+
+async function f2() {
+  console.log(await thenable); // resolved!
+}
+
+f2();
+
+
+function f3() {
+
+	thenable.then((res) => {
+		console.log(res);
+	})
+}
+
+f3();
+
+</script>
+
+

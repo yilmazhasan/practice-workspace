@@ -4,11 +4,50 @@
 **/
 
 #include <iostream>
+#include <algorithm>
+#include <string>
 #include <vector>
 
 using namespace std;
 
 int eqCoords[] = {0,0};
+
+int findMinColIndexInRowIfUnique(vector<int> vec) {
+	int minInd = 0;
+	bool equality = false;
+	for(int i = 1; i < vec.size(); i++) {
+		if(vec[i] < vec[minInd]) {
+			minInd = i;
+		} else if(vec[i] == vec[minInd]) {
+			equality = true;
+		}
+	}
+
+	if(equality) {
+		return -2;
+	} else {
+		return minInd;
+	}
+}
+
+int findMaxRowIndexInColIfUnique(vector<vector<int>> vec, int indOfCol) {
+	int maxInd = 0;
+	bool equality = false;
+
+	for(int i = 1; i < vec.size(); i++) {
+		if(vec[i][indOfCol] > vec[maxInd][indOfCol]) {
+			maxInd = i;
+			equality = false;
+		} else if(vec[i][indOfCol] == vec[maxInd][indOfCol]) {
+			equality = true;
+		}
+	}
+	if(equality) {
+		return -2;
+	} else {
+		return maxInd;
+	}
+}
 
 // if max is more than one, then return -2
 int findMaxColIndexInRowIfUnique(vector<int> vec) {
@@ -76,7 +115,6 @@ void getEquilibriumCoords(vector<vector<int>> matrix) {
 	}
 
 }
-
 
 int main(){
 
