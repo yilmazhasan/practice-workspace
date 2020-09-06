@@ -5,7 +5,6 @@
 **/
 
 // Time limit exceeded on test 3
-// Time limit exceeded on test 3
 // find seperated ones, and take sum of factorials
 
 // then remove from array and recalculate with current function 
