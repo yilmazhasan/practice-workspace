@@ -1,6 +1,7 @@
 from sys import stdin
 from collections import defaultdict
 import collections 
+import sys 
 
 def getMean(nums):
 	N = len(nums);
@@ -293,7 +294,12 @@ line = raw_input("Enter numbers to find stat values:");
 nums = map(int, line.split(" "))
 nums.sort()
 
-print("Mean: %.1f" % getMean(nums));
-print("Median: %.1f" % getMedian(nums));
-print("Mode: %.1f" % getMode(nums));
-print("Standard deviation: %.1f" % getStdDev(nums))
+
+if __name__ == '__main__':
+    print("Mean: %.1f" % getMean(nums));
+    print("Median: %.1f" % getMedian(nums));
+    print("Mode: %.1f" % getMode(nums));
+    print("Standard deviation: %.1f" % getStdDev(nums))
+
+    # to execute a function getting from command line
+    #print (globals()[sys.argv[1]]( [int(x) for x in sys.argv[2][1:-1].split(',')]))
