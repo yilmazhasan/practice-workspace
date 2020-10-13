@@ -19,6 +19,9 @@ rwd.info() # Concise summary of data
 rwd[rwd["quality"].isnull]
 rwd.quality.fillna(rwd["quality"].mean(), inplace="True")
 
+# correlation
+rwd.corr()
+
 # converts values into binary
 rwd.get_dummies(rwd, columns=['LocationDescription']) # generates new columns such as 'LocationDescription_Street'
 
@@ -57,3 +60,7 @@ a.loc[a['Arrest']==True]
 
 # df.loc[df['column_name'].isin(some_values)]
 # df.loc[(df['column_name'] >= A) & (df['column_name'] <= B)]
+
+
+# append
+# df.append({'a':1, 'b': None}, ignore_index=True)
