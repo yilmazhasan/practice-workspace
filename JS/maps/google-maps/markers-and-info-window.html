@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Simple Markers</title>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=API_KEY&callback=initMap&libraries=&v=weekly"
+    defer></script>
+  <!-- <script src="demo.js"></script> -->
+  <style type="text/css">
+    /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+    #map {
+      height: 100%;
+    }
+
+    /* Optional: Makes the sample page fill the window. */
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+  <script>
+    markers1 = [[41.04452082199627,29.00478184562894],[41.04747260037521,29.00629246888934],[41.05057959412941,29.006841782152378],[41.05596470320697,29.00752842766019],[41.06046921518932,29.008421068915823],[41.062540151479375,29.00478184562894],[41.059589047124646,29.00560582338153],[41.05560225842415,29.006635791643248],[41.05596470320697,29.002996568356366],[41.04980285944531,29.002721909105503],[41.047006539843295,29.00354588685809],[41.04669582901268,28.99798405929255],[41.05202947591922,28.997503404293866],[41.05627536730447,29.000661972582066],[41.06067631155527,29.003751877367222],[41.041776064114735,28.997503404293866]];
+    let markerList = [markers1.map((m, i) => ({latitude: m[0], longitude: m[1], amount: (i+1) * 1000}))];
+
+    markers = [];
+    let map;
+    function initMap() {
+      map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 5,
+        center: { lat: 39.1667, lng: 35.6667 }
+      });
+
+      addMarkers();
+    }
+
+    function addMarkers() {
+
+      markerList.forEach(list => {
+        // console.log("adding marker " , i, el);
+        list.forEach(el => {
+          marker = new google.maps.Marker({
+            position: { lat: el.latitude, lng: el.longitude },
+            map,
+            title: "Hello World!",
+          });
+          const contentString = '<div> <p><b>Tutar: </b>' + el.amount + ' </div>';
+          const infowindow = new google.maps.InfoWindow({
+            content: contentString,
+          });
+          marker.addListener('mouseover', function () {
+            infowindow.open(map, this);
+          });
+
+          // assuming you also want to hide the infowindow when user mouses-out
+          marker.addListener('mouseout', function () {
+            infowindow.close();
+          });
+          markers.push(marker);
+        })
+      })
+
+    }
+
+    function removeMarkers() {
+
+      markers.forEach(mrkr => {
+        mrkr.setMap(null)
+
+      });
+    }
+
+  </script>
+</head>
+
+<body>
+  <div id="map"></div>
+</body>
+
+</html>

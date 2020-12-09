@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Complex Polylines</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=API_KEY&callback=initMap&libraries=&v=weekly"
+      defer
+    ></script>
+    <style type="text/css">
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+
+      /* Optional: Makes the sample page fill the window. */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <script>
+      // This example creates an interactive map which constructs a polyline based on
+      // user clicks. Note that the polyline only appears once its path property
+      // contains two LatLng coordinates.
+      let poly;
+      let map;
+      let routeByCoordObjs = [];
+      let routeByLatLngs = [];
+      let markers = [];
+      let polygon;
+
+      function polygonClicked(e) {
+        // add this to new polygon points 
+        addLatLng(e);
+      }
+
+      function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 5, 
+          center: { lat: 39.1667, lng: -35.6667 }
+        });
+        initPoly();
+        // Add a listener for the click event
+        map.addListener("click", addLatLng);
+      }
+
+      function initPoly() {
+        poly = new google.maps.Polyline({
+          strokeColor: "#000000",
+          strokeOpacity: 1.0,
+          strokeWeight: 3,
+        });
+        poly.setMap(map);
+      }
+
+      function removeMarkers() {
+        markers.forEach(marker => {
+          marker.setMap(null);
+        });
+
+        markers = [];
+      }
+
+      function removePolygon () {
+        if(polygon) {
+          polygon.setMap(null);
+          polygon = null;
+        }
+      }
+
+      function removePoly () {
+        if(poly) {
+          poly.setMap(null);
+          poly = null;
+        }
+      }
+
+      function addNewPoint(latLng) {
+        routeByCoordObjs.push(latLng);
+      }
+
+      function drawPolygon () {
+        if(!routeByCoordObjs)
+          return;
+        routeByLatLngs = [];
+
+        routeByCoordObjs.forEach(p => {
+          routeByLatLngs.push({lat: p.lat(), lng:p.lng()})
+        })
+
+        polygon = new google.maps.Polygon({
+          paths: routeByLatLngs,
+          strokeColor: "#FF0000",
+          strokeOpacity: 0.8,
+          strokeWeight: 3,
+          fillColor: "#FF0000",
+          fillOpacity: 0.35,
+        });
+        polygon.setMap(map);
+        polygon.addListener("click", polygonClicked)
+      }
+      
+      function reset() {
+        console.log(routePaths);
+        removePoly();
+        initPoly();
+        removePolygon();
+        removeMarkers();
+        routePaths = [];
+        routeByCoordObjs = [];
+      }
+
+      // Handles click events on a map, and adds a new point to the Polyline.
+      function addLatLng(event) {
+        const path = poly.getPath();
+        // Because path is an MVCArray, we can simply append a new coordinate
+        // and it will automatically appear.
+        path.push(event.latLng);
+        addNewPoint(event.latLng);
+        removePolygon();
+        drawPolygon();
+                // console.log(poly)
+        // Add just first marker
+        if(markers.length == 0) {
+
+          marker = new google.maps.Marker({
+            position: event.latLng,
+            title: "#" + path.getLength(),
+            map: map,
+          });
+          
+          markers.push(marker);
+        }
+      }
+
+    </script>
+  </head>
+  <body>
+    <div id="floating-panel">
+      <input onclick="reset();" type="button" value="Reset" />
+    </div>
+
+    <div id="map"></div>
+  </body>
+</html>
