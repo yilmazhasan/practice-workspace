@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<body onkeydown="myFunction(event)">
+
+<h1>Document execCommand() Method</h1>
+
+<p>The executeCommand() method executes a specified command on selected text or section.</p>
+
+<h2>Select Text and Press Shift</h2>
+<p>Select some text in this page, and press the SHIFT button to make the selected text toggle between bold and normal.</p>
+
+<script>
+document.designMode = "on";
+
+function myFunction(event) {
+  if (event.keyCode == 16) {
+    // Execute command if user presses the SHIFT button:
+    document.execCommand("bold");
+  }
+}
+</script>
+
+</body>
+</html>
