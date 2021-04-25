@@ -1,0 +1,62 @@
+<body>
+    <h3>Some test tables</h3>
+<div>
+<p>First table</p>
+    <table>
+        <tr>
+            <td>First</td>
+            <td>row</td>
+        </tr>
+        <tr>
+            <td>and</td>
+            <td>second</td>
+            <td>row</td>
+        </tr>
+        <tr>
+            <td>and</td>
+            <td>the</td>
+            <td>third</td>
+            <td>one</td>
+        </tr>
+    </table>
+</div>
+<p>Second table</p>
+<table>
+    <tr>
+        <td>Not</td>
+        <td>so</td>
+    </tr>
+    <tr>
+        <td>many</td>
+        <td>cells</td>
+    </tr>
+</table>
+</body>
+
+<script>
+// find cell count of table that has max cells
+    function solution() {
+
+        tables = document.getElementsByTagName('table');
+        maxCells = 0;
+        for(let i = 0; i < tables.length; i++) {
+            const table = tables[i]; 
+            const tBody = table.children[0];
+            let cellsCount = 0;
+            for(let j = 0; j < tBody.children.length; j++) {
+                const row = tBody.children[j];
+                console.log(row.children.length);
+                cellsCount += row.children.length;
+            }
+
+            if (maxCells < cellsCount) {
+                maxCells = cellsCount;
+            }
+        }
+
+        return maxCells;
+    }
+
+console.log(solution());
+
+</script>
