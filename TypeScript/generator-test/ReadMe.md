@@ -1,0 +1,1 @@
+tsc yield.ts --target es6
